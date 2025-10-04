@@ -10,3 +10,6 @@ r2-backup/
 # Optional: ignore logs and temp files
 *.log
 .DS_Store
+
+# Ignore FTP logs
+nohup.out
