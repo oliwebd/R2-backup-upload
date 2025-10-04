@@ -1,0 +1,21 @@
+{
+  "name": "R2Download/Upload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "download": "node src/download-r2.js",
+    "upload": "node src/upload-r2.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.901.0",
+    "dotenv": "^17.2.3",
+    "fs-extra": "^11.3.2",
+    "mime": "^4.1.0",
+    "p-limit": "^7.1.1"
+  }
+}
