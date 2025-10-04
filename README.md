@@ -1,10 +1,10 @@
 
 # 📦 R2-backup-upload
 
-A Node.js tool for **fast downloading and uploading** files from/to a Cloudflare R2 bucket with concurrency control.
+A Node.js tool for ** Backup and Upload** files from/to a Cloudflare R2 bucket.
 
 ## 🚀 Features
-- Download all files from an R2 bucket quickly with parallel processing
+- Download/Backup all files from an R2 bucket quickly with parallel processing
 - Upload all files to an R2 bucket with cache-control headers
 - Stream files to avoid excessive memory usage
 - Controlled concurrency for optimal speed and stability
@@ -71,6 +71,19 @@ npm run download
 ```bash
 npm run upload
 ```
+Files will be backed up/downloaded or uploaded from the location set in your .env file under LOCAL_BACKUP.
+Example:
+LOCAL_BACKUP=./r2-backup/folder 
+
+#### What is LOCAL_BACKUP?
+
+LOCAL_BACKUP is the local folder path where:
+
+Your R2 bucket files will be downloaded to
+
+Or where files will be uploaded from
+
+It essentially acts as your local backup folder for that R2 bucket.
 
 ## ⚡ Performance
 - Uses [`p-limit`](https://www.npmjs.com/package/p-limit) to handle concurrency for faster uploads/downloads.
