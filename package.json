@@ -5,9 +5,8 @@
   "type": "module",
   "main": "src/index.js",
   "bin": {
-    "r2-upload": "./src/upload-r2.js",
-    "r2-download": "./src/download-r2.js"
-  },
+  "r2sync": "./src/cli.js"
+  }
   "scripts": {
     "setup": "node ./src/setup.js",
     "postinstall": "node ./src/setup.js"
