@@ -24,12 +24,12 @@ import { loadConfig } from "./config.js";
 
   // Parse CLI args
   const args = process.argv.slice(2);
-  let prefix = "";
+  let remotePath = "";
 
-  const fromIndex = args.indexOf("--from");
-  if (fromIndex !== -1 && args[fromIndex + 1]) {
-    prefix = args[fromIndex + 1].replace(/\/$/, ""); // Remove trailing slash
-    console.log("📂 Downloading only folder:", prefix);
+  const remoteIndex = args.indexOf("--remote");
+  if (remoteIndex !== -1 && args[remoteIndex + 1]) {
+    remotePath = args[remoteIndex + 1].replace(/\/$/, ""); // Remove trailing slash
+    console.log("📂 Downloading only remote folder:", remotePath);
   }
 
   const localIndex = args.indexOf("--local");
@@ -55,7 +55,7 @@ import { loadConfig } from "./config.js";
     do {
       const list = await client.send(new ListObjectsV2Command({
         Bucket: BUCKET,
-        Prefix: prefix || undefined,
+        Prefix: remotePath || undefined,
         ContinuationToken,
       }));
 
