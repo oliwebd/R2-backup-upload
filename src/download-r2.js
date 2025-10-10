@@ -1,72 +1,94 @@
+#!/usr/bin/env node
 import { S3Client, ListObjectsV2Command, GetObjectCommand } from "@aws-sdk/client-s3";
-import { config } from "dotenv";
 import fs from "fs-extra";
 import path from "path";
 import pLimit from "p-limit";
+import { loadConfig } from "./config.js";
 
-config();
+(async () => {
+  const cfg = loadConfig();
 
-const client = new S3Client({
-  region: "auto",
-  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY,
-    secretAccessKey: process.env.R2_SECRET_KEY,
-  },
-});
-
-const BUCKET = process.env.R2_BUCKET;
-const LOCAL_DIR = process.env.LOCAL_BACKUP;
-const CONCURRENCY = Number(process.env.CONCURRENCY_SPEED) || 10;
-const limit = pLimit(CONCURRENCY);
-
-async function streamToFile(stream, filepath) {
-  await fs.ensureDir(path.dirname(filepath));
-  const writeStream = fs.createWriteStream(filepath);
-  return new Promise((resolve, reject) => {
-    stream.pipe(writeStream);
-    stream.on("error", reject);
-    writeStream.on("finish", resolve);
+  const client = new S3Client({
+    region: "auto",
+    endpoint: `https://${cfg.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    credentials: {
+      accessKeyId: cfg.R2_ACCESS_KEY,
+      secretAccessKey: cfg.R2_SECRET_KEY,
+    },
   });
-}
 
-async function listAllKeys() {
-  let ContinuationToken = undefined;
-  const keys = [];
+  const BUCKET = cfg.R2_BUCKET;
+  let LOCAL_DIR = cfg.LOCAL_BACKUP;
+  const CONCURRENCY = Number(cfg.CONCURRENCY_SPEED) || 10;
+  const limit = pLimit(CONCURRENCY);
 
-  do {
-    const list = await client.send(new ListObjectsV2Command({
-      Bucket: BUCKET,
-      ContinuationToken,
-    }));
+  // Parse CLI args
+  const args = process.argv.slice(2);
+  let prefix = "";
 
-    (list.Contents || []).forEach(item => keys.push(item.Key));
+  const fromIndex = args.indexOf("--from");
+  if (fromIndex !== -1 && args[fromIndex + 1]) {
+    prefix = args[fromIndex + 1].replace(/\/$/, ""); // Remove trailing slash
+    console.log("📂 Downloading only folder:", prefix);
+  }
 
-    ContinuationToken = list.IsTruncated ? list.NextContinuationToken : undefined;
-  } while (ContinuationToken);
+  const localIndex = args.indexOf("--local");
+  if (localIndex !== -1 && args[localIndex + 1]) {
+    LOCAL_DIR = args[localIndex + 1];
+    console.log("📁 Overriding local backup directory:", LOCAL_DIR);
+  }
 
-  return keys;
-}
+  async function streamToFile(stream, filepath) {
+    await fs.ensureDir(path.dirname(filepath));
+    const writeStream = fs.createWriteStream(filepath);
+    return new Promise((resolve, reject) => {
+      stream.pipe(writeStream);
+      stream.on("error", reject);
+      writeStream.on("finish", resolve);
+    });
+  }
 
-async function downloadFile(key) {
-  const filepath = path.join(LOCAL_DIR, key);
-  console.log("⬇️ Downloading:", key);
+  async function listAllKeys() {
+    let ContinuationToken = undefined;
+    const keys = [];
 
-  const res = await client.send(new GetObjectCommand({ Bucket: BUCKET, Key: key }));
-  await streamToFile(res.Body, filepath);
+    do {
+      const list = await client.send(new ListObjectsV2Command({
+        Bucket: BUCKET,
+        Prefix: prefix || undefined,
+        ContinuationToken,
+      }));
 
-  console.log(`✅ Downloaded: ${key}`);
-}
+      (list.Contents || []).forEach(item => keys.push(item.Key));
 
-async function downloadAll() {
-  const keys = await listAllKeys();
-  console.log(`🚀 Downloading ${keys.length} files with concurrency ${CONCURRENCY}...`);
+      ContinuationToken = list.IsTruncated ? list.NextContinuationToken : undefined;
+    } while (ContinuationToken);
 
-  const tasks = keys.map(key => limit(() => downloadFile(key)));
-  await Promise.all(tasks);
+    return keys;
+  }
 
-  console.log("🎉 All files downloaded to", LOCAL_DIR);
-}
+  async function downloadFile(key) {
+    const filepath = path.join(LOCAL_DIR, key);
+    console.log("⬇️ Downloading:", key);
 
-downloadAll().catch(console.error);
+    const res = await client.send(new GetObjectCommand({ Bucket: BUCKET, Key: key }));
+    await streamToFile(res.Body, filepath);
 
+    console.log(`✅ Downloaded: ${key}`);
+  }
+
+  async function downloadAll() {
+    const keys = await listAllKeys();
+    console.log(`🚀 Downloading ${keys.length} files with concurrency ${CONCURRENCY}...`);
+
+    const tasks = keys.map(key => limit(() => downloadFile(key)));
+    await Promise.all(tasks);
+
+    console.log("🎉 All files downloaded to", LOCAL_DIR);
+  }
+
+  downloadAll().catch(err => {
+    console.error("❌ Download failed:", err);
+    process.exit(1);
+  });
+})();
