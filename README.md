@@ -1,5 +1,5 @@
 
-# 📦 r2sync
+# 📦 R2sync
 
 A Node.js tool for ** Backup and Upload** files from/to a Cloudflare R2 bucket.
 
