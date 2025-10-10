@@ -9,6 +9,8 @@
     "r2-download": "./src/download-r2.js"
   },
   "scripts": {
+    "setup": "node ./src/setup.js",
+    "postinstall": "node ./src/setup.js"
     "upload": "node ./src/upload-r2.js",
     "download": "node ./src/download-r2.js",
     "release": "npm version patch && npm publish",
