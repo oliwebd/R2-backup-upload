@@ -1,21 +1,49 @@
 {
-  "name": "R2Download/Upload",
+  "name": "r2sync",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/index.js",
-  "scripts": {
-    "download": "node src/download-r2.js",
-    "upload": "node src/upload-r2.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Backup and upload files from/to Cloudflare R2 with concurrency, streaming, and low memory usage.",
   "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "r2-upload": "./src/upload-r2.js",
+    "r2-download": "./src/download-r2.js"
+  },
+  "scripts": {
+    "upload": "node ./src/upload-r2.js",
+    "download": "node ./src/download-r2.js",
+    "release": "npm version patch && npm publish",
+    "prepublishOnly": "echo '✅ Ready to publish version $npm_package_version'"
+  },
+  "keywords": [
+    "cloudflare",
+    "r2",
+    "backup",
+    "upload",
+    "download",
+    "sync",
+    "aws-s3"
+  ],
+  "author": {
+    "name": "Oli Miah",
+    "url": "https://github.com/oliwebd"
+  },
+  "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.901.0",
-    "dotenv": "^17.2.3",
-    "fs-extra": "^11.3.2",
-    "mime": "^4.1.0",
-    "p-limit": "^7.1.1"
+    "@aws-sdk/client-s3": "^3.600.0",
+    "dotenv": "^16.4.5",
+    "fs-extra": "^11.2.0",
+    "mime": "^3.0.0",
+    "p-limit": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oliwebd/r2sync.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oliwebd/r2sync/issues"
+  },
+  "homepage": "https://github.com/oliwebd/r2sync#readme",
+  "engines": {
+    "node": ">=18"
   }
 }
