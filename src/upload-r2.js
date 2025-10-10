@@ -1,3 +1,9 @@
+#!/usr/bin/env node
+import { loadConfig } from "./config.js";
+
+(async () => {
+  const config = loadConfig();
+
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { config } from "dotenv";
 import fs from "fs-extra";
