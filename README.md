@@ -1,5 +1,5 @@
 
-# 📦 R2-backup-upload
+# 📦 r2sync
 
 A Node.js tool for ** Backup and Upload** files from/to a Cloudflare R2 bucket.
 
@@ -13,13 +13,13 @@ A Node.js tool for ** Backup and Upload** files from/to a Cloudflare R2 bucket.
 
 1. Clone the repository:
 ```bash
-git clone git@github.com:oliwebd/R2-backup-upload.git .
+git clone git@github.com:oliwebd/r2sync.git .
 
 ```
 Or use:
 ```bash
-git clone git@github.com:oliwebd/R2-backup-upload.git
-cd R2-backup-upload
+git clone git@github.com:oliwebd/r2sync.git
+cd r2sync
 
 ```
 
