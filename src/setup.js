@@ -104,7 +104,7 @@ function showEnvGuidance() {
   console.log("\nOptional variables:");
   console.log("export R2SYNC_LOCAL_BACKUP=\"./r2-backup\"");
   console.log("export R2SYNC_CONCURRENCY_SPEED=\"100\"");
-  console.log("\nAfter setting them, re-run 'npx r2sync upload' or 'npx r2sync download'.");
+  console.log("\nAfter setting them, re-run 'r2sync upload' or 'r2sync download'.");
   console.log("--------------------------------------------------------------------");
 }
 
@@ -210,7 +210,7 @@ function showEnvGuidance() {
     fs.writeFileSync(CONFIG_FILE, configLines + '\n', { mode: 0o600 });
     console.log(`\n📄 Plaintext config saved to: ${CONFIG_FILE}`);
     showSecurityGuidance();
-    console.log(`\n✨ Setup complete! You can now run:\n   → npx r2sync upload\n   → npx r2sync download`);
+    console.log(`\n✨ Setup complete! You can now run:\n   → r2sync upload\n   → r2sync download`);
   } else {
     console.log("\n🚫 Setup aborted. Configuration file not created or updated.");
   }
