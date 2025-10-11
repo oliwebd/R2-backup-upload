@@ -1,6 +1,6 @@
 # 📦 R2Sync
 
-A CLI tool for *backup and upload* files from/to a Cloudflare R2 bucket with concurrency, streaming, and low memory usage.
+A CLI tool for **backup and upload** files from/to a Cloudflare R2 bucket with concurrency, streaming, and low memory usage.
 
 ## 🚀 Features
 - Download or backup all files from an R2 bucket quickly with parallel processing
@@ -36,9 +36,10 @@ r2sync setup
 
 ## 🛠 Usage
 
-### General Usage
+### General Usage [Examples]
 ```bash
-npx r2sync <command> [--remote <remote-folder>] [--local <local-folder>]
+r2sync download --local ./r2/to-backup-folder
+r2sync upload --local ./r2/from-upload-folder
 ```
 
 ### Commands:
@@ -47,19 +48,19 @@ npx r2sync <command> [--remote <remote-folder>] [--local <local-folder>]
 
 ### Examples:
 ```bash
-npx r2sync upload
-npx r2sync upload --local ./static/storage
-npx r2sync upload --remote my-folder --local ./my-local-folder
+r2sync upload
+r2sync upload --local ./static/storage
+r2sync upload --remote r2-folder --local ./my-local-folder
 npx r2sync download
 npx r2sync download --local ./static/storage
-npx r2sync download --remote my-folder --local ./my-local-folder
+npx r2sync download --remote r2-folder --local ./my-local-folder
 ```
 
 ### 📂 Default Local Storage
 
 If `--local` is not provided, defaults to:
 ```
-r2-backup/BUCKET_NAME_YYYYMMDD
+r2-backup/BUCKET_NAME_YYYY-MM-DD
 ```
 
 ## ⚡ Performance

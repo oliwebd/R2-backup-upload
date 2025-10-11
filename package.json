@@ -1,6 +1,6 @@
 {
   "name": "r2sync",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "Backup and upload files from/to Cloudflare R2 with concurrency, streaming, and low memory usage.",
   "type": "module",
   "bin": {
