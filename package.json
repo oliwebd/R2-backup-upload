@@ -1,19 +1,16 @@
 {
   "name": "r2sync",
-  "version": "1.0.0",
+  "version": "1.0.21",
   "description": "Backup and upload files from/to Cloudflare R2 with concurrency, streaming, and low memory usage.",
   "type": "module",
-  "main": "src/index.js",
   "bin": {
-  "r2sync": "./src/cli.js"
-  }
+    "r2sync": "src/cli.js"
+  },
   "scripts": {
     "setup": "node ./src/setup.js",
-    "postinstall": "node ./src/setup.js"
+    "postinstall": "node ./src/setup.js",
     "upload": "node ./src/upload-r2.js",
-    "download": "node ./src/download-r2.js",
-    "release": "npm version patch && npm publish",
-    "prepublishOnly": "echo '✅ Ready to publish version $npm_package_version'"
+    "download": "node ./src/download-r2.js"
   },
   "keywords": [
     "cloudflare",
@@ -31,7 +28,6 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.600.0",
-    "dotenv": "^16.4.5",
     "fs-extra": "^11.2.0",
     "mime": "^3.0.0",
     "p-limit": "^4.0.0"
@@ -48,3 +44,4 @@
     "node": ">=18"
   }
 }
+

@@ -1,6 +1,12 @@
 # Ignore node_modules
 node_modules/
 
+.git
+
+.r2syncrc
+
+.npmrc
+
 # Ignore local backups
 r2-backup/
 
@@ -13,3 +19,5 @@ r2-backup/
 
 # Ignore FTP logs
 nohup.out
+
+

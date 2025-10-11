@@ -10,7 +10,7 @@ import { loadConfig } from "./config.js";
 
   const client = new S3Client({
     region: "auto",
-    endpoint: `https://${cfg.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    endpoint: `https://${cfg.CF_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     credentials: {
       accessKeyId: cfg.R2_ACCESS_KEY,
       secretAccessKey: cfg.R2_SECRET_KEY,
