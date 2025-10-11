@@ -7,7 +7,6 @@ A CLI tool for **backup and upload** files from/to a Cloudflare R2 bucket with c
 - Upload all files to an R2 bucket with cache-control headers
 - Stream files to avoid excessive memory usage
 - Controlled concurrency for optimal speed and stability
-- Secure encrypted configuration stored in user’s home directory
 
 ## ⚙️ Installation
 If you want to use the r2sync command directly from your terminal in any project directory (which is typical for a CLI utility), use the global install flag:
